@@ -8,7 +8,7 @@ const memos = [];
 
 app.use(bodyParser.json());
 
-// 조회
+// 조회 test
 app.get('/api/memos', async (req, res) => {
   const result = await database.run('SELECT HOSPID, USERID, USERNM FROM ADI0100', []);
   res.send(result);
