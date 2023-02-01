@@ -28,7 +28,12 @@ export default {
       }
 
       // Insert
-      await axios.post('/api/memos', { content }).then((res) => {});
+      await axios
+        .post('/api/memos', { content })
+        .then((res) => {})
+        .catch((err) => {
+          console.log(err.response);
+        });
 
       // 조회
       await axios

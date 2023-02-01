@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 // 조회 test
 app.get('/api/memos', async (req, res) => {
-  const result = await database.run('SELECT HOSPID, USERID, USERNM FROM ADI0100', []);
+  const result = await database.run('SELECT * FROM ORB1010', []);
   res.send(result);
 });
 
