@@ -1,6 +1,6 @@
 <template>
   <div id="app-container">
-    <DxDataGrid :data-source="state.data" key-expr="ORDKEY" :show-borders="true" :focused-row-enabled="true">
+    <DxDataGrid :data-source="state.data" key-expr="ORDKEY" :show-borders="true" :focused-row-enabled="true" @saving="onSaving">
       <DxEditing :allow-updating="true" :allow-adding="true" :allow-deleting="true" mode="batch" />
       <DxPaging :enabled="false" />
       <DxColumn data-field="PATNUM" width="100px" />
@@ -76,6 +76,12 @@ export default {
       });
 
     return { state };
+  },
+  methods: {
+    onSaving(e) {
+      e.cancel = true;
+      console.log('저장클릭함');
+    },
   },
 };
 </script>
