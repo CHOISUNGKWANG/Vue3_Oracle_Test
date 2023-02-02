@@ -3,14 +3,21 @@ const app = express();
 const port = 3000;
 const bodyParser = require('body-parser');
 const database = require('./database');
-
-const memos = []; 
+const mybatisMapper = require('mybatis-mapper');
 
 app.use(bodyParser.json());
 
+mybatisMapper.createMapper(['./oracle-mapper.xml']);
+
 // 조회 test
 app.get('/api/memos', async (req, res) => {
-  const result = await database.run('SELECT * FROM ORB1010', []);
+  let param = {
+    PATNUM: '000050003',
+  };
+  let format = { language: 'sql', indent: '  ' };
+  let query = mybatisMapper.getStatement('ORB', 'selectORB1010', param, format);
+
+  const result = await database.run(query);
   res.send(result);
 });
 
