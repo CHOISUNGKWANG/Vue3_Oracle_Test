@@ -21,6 +21,13 @@ app.get('/api/memos', async (req, res) => {
   res.send(result);
 });
 
+// IUD Test
+app.post('/api/IUD', async (req, res) => {
+  console.log(req.body);
+
+  res.send([{ msg: 'IUD 응답성공' }]);
+});
+
 // Insert
 app.post('/api/memos', async (req, res) => {
   console.log('입력한 값:');
