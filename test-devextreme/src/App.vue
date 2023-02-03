@@ -51,24 +51,24 @@ export default {
 		});
 
 		// 값만 나열되어 있는 배열을 key-value형태의 객체로 변환 작업
-		//res.data 나열 (0번째는 칼럼명, 1번째 인덱스부터 끝까지 값)
+		// res.data 나열 (0번째는 칼럼명, 1번째 인덱스부터 끝까지 값)
 		const fnKeyValueFormat = (res) => {
 			// 가공된 객체들(행 데이터)을 담을 배열
 			let lKeyValueData = [];
 
 			// key(칼럼명)가 들어간 기본틀
-			const ldefaultFormat = {};
+			const lDefaultFormat = {};
 
 			// 객체에 key(칼럼명) 추가
 			// ex) {HOSPID: '', USERID: '', USERNM: ''}
 			for (let i = 0; i < res.data[0].length; i++) {
-				ldefaultFormat[res.data[0][i].name] = '';
+				lDefaultFormat[res.data[0][i].name] = '';
 			}
 
 			// 객체에 값을 넣는 작업 (1번째 인덱스부터 값임)
 			for (let i = 1; i < res.data.length; i++) {
 				// 행 데이터를 담을 객체 = 만들어둔 객체 기본틀 복제 (참조할당x)
-				let lKeyValueDataRow = Object.assign({}, ldefaultFormat);
+				let lKeyValueDataRow = Object.assign({}, lDefaultFormat);
 
 				// 첫번째 key(칼럼명)부터 순차적으로 값 삽입
 				for (let j = 0; j < res.data[i].length; j++) {
@@ -103,14 +103,13 @@ export default {
 				console.log(err.response);
 			});
 
-		return {state};
-	},
-	methods: {
-		onSaving(e) {
+		// 저장버튼 클릭 시
+		const onSaving = async (e) => {
 			e.cancel = true;
 			console.log(e.changes);
 
-			axios
+			// IUD 요청
+			await axios
 				.post('/api/IUD', e.changes)
 				.then((res) => {
 					console.log(res);
@@ -118,7 +117,31 @@ export default {
 				.catch((err) => {
 					console.log(err.response);
 				});
-		},
+
+			// 재조회 테스트
+			await axios
+				.get('/api/memos')
+				.then((res) => {
+					console.log(res);
+					state.data = [
+						{
+							PATNUM: 'a',
+							ORDKEY: 'b',
+							ODCODE: 'c',
+							ARESDT: 'd',
+							REGDAT: 'e',
+							RESDAT: 'f',
+							ACTDAT: 'g',
+							RSTDAT: 'h',
+						},
+					];
+				})
+				.catch((err) => {
+					console.log(err.response);
+				});
+		};
+
+		return {state, onSaving};
 	},
 };
 </script>
